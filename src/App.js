@@ -1,34 +1,42 @@
 import "./styles.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import heroIcon from "../public/shopping-cart.svg";
 
 export default function App() {
   const [inventory, setInventory] = useState({
     ITEM01: {
-      name: "potato",
-      quantity: 3,
-      price: 58,
+      name: "Moong Dal Yellow (Split)",
+      img:
+        "https://rukminim1.flixcart.com/image/352/352/j8rnpu80/pulses/m/j/c/1-moong-dal-moong-dal-un-branded-original-imaeymjgdha3wqts.jpeg?q=70",
+      quantity: 5,
+      price: 128,
       unit: "kg",
       perUnit: 1,
       inStock: true
     },
     ITEM02: {
-      name: "bread",
+      name: "Red Bull Sugar free Energy Drink",
+      img:
+        "https://rukminim1.flixcart.com/image/352/352/kf2v3ww0/energy-sport-drink-mix/g/y/z/6000-sugarfree-red-bull-original-imafvmeft3jhruky.jpeg?q=70",
       quantity: 5,
-      price: 87,
-      unit: "gm",
-      perUnit: 100,
+      price: 115,
+      unit: "ml",
+      perUnit: 250,
       inStock: true
     },
     ITEM03: {
-      name: "milk",
-      quantity: 2,
-      price: 25.5,
-      unit: "L",
-      perUnit: 1,
+      name: "Britannia Treat Jim Jam",
+      img:
+        "https://rukminim1.flixcart.com/image/352/352/k8j3gcw0/cookie-biscuit/e/t/g/150-treat-jim-jam-britannia-original-imafqgw8mhyxgmy3.jpeg?q=70",
+      quantity: 3,
+      price: 31,
+      unit: "g",
+      perUnit: 250,
       inStock: true
     }
   });
 
+  const [amount, setAmount] = useState(0);
   const [cart, setCart] = useState({});
   const [showCartList, setShowCartList] = useState(false);
 
@@ -101,22 +109,49 @@ export default function App() {
     }
   }
 
+  function computeTotalAmount() {
+    let total = Object.keys(cart).reduce(
+      (amount, itemID) => amount + cart[itemID].quantity * cart[itemID].price,
+      0
+    );
+    setAmount(total);
+  }
+
+  useEffect(computeTotalAmount, [cart]);
+
   return (
-    <div className="App">
-      <h1>Shopping cart</h1>
-      <div className="inventory">
+    <div className="app shopping-cart">
+      <h1 className="app--title">
+        Shopping cart
+        <img className="hero--icon" alt="" src={heroIcon} />
+      </h1>
+      <span className="cart--total-amount">{`Total amount: Rs. ${amount}`}</span>
+      <div className="inventory card--list">
         {Object.keys(inventory).map((item) => (
-          <div key={item} className="inventory-item">
-            <h3>{inventory[item].name}</h3>
-            <p>
+          <div key={item} className="card--item">
+            <div
+              className={`card--stock ${
+                checkInStock(item) ? "in-stock" : "no-stock"
+              }`}
+            >
+              {checkInStock(item) ? "Hurry!" : "Out of stock"}
+            </div>
+            <img
+              src={inventory[item].img}
+              alt=""
+              className="card--img card--field"
+            />
+            <p className="card--title">{inventory[item].name}</p>
+            <p className="card--price card--field">
               Price:{" "}
               {`Rs. ${inventory[item].price}/ ${inventory[item].perUnit} ${inventory[item].unit}`}
             </p>
-            <p>{inventory[item].quantity}</p>
-            <div className={checkInStock(item) ? "in-stock" : "no-stock"}>
-              {checkInStock(item) ? "In Stock!" : "Out of stock"}
-            </div>
+            <p className="card--quantity card--field">
+              {inventory[item].quantity}
+            </p>
+
             <button
+              className="btn card--btn"
               disabled={!checkInStock(item)}
               onClick={() => addToCart(item)}
             >
@@ -125,37 +160,53 @@ export default function App() {
           </div>
         ))}
       </div>
-      <button onClick={() => setShowCartList(!showCartList)}>My Cart</button>
-      <div style={{ display: showCartList ? "flex" : "none" }} className="cart">
+      <button
+        className="btn btn__primary btn__add-to-cart"
+        onClick={() => setShowCartList(!showCartList)}
+      >
+        My Cart ({Object.keys(cart).length})
+      </button>
+      <div
+        className="cart card--list"
+        style={{ display: showCartList ? "flex" : "none" }}
+      >
         {Object.keys(cart).map((item) => (
-          <div key={item} className="cart-item">
-            <h3>{cart[item].name}</h3>
-            <p>{`Price: Rs. ${cart[item].quantity * cart[item].price}`}</p>
-            <p>
+          <div key={item} className="card--item">
+            <img
+              src={inventory[item].img}
+              alt=""
+              className="card--img card--field"
+            />
+            <p className="card--title card--field">{cart[item].name}</p>
+            <p className="card--price card--field">{`Price: Rs. ${
+              cart[item].quantity * cart[item].price
+            }`}</p>
+            <p className="card--quantity card--field">
               Quantity:{" "}
               {`${cart[item].perUnit * cart[item].quantity} ${cart[item].unit}`}
             </p>
-            <button
-              disabled={cart[item].quantity <= 0}
-              onClick={() => decreaseQuantity(item)}
-            >
-              -
-            </button>
-            <span> Num: {cart[item].quantity} </span>
-            <button
-              disabled={!checkInStock(item)}
-              onClick={() => increaseQuantity(item)}
-            >
-              +
-            </button>
+            <div className="cart--units-control">
+              <button
+                className="btn card--btn"
+                disabled={cart[item].quantity <= 0}
+                onClick={() => decreaseQuantity(item)}
+              >
+                -
+              </button>
+              <div className="card--units card--field">
+                {cart[item].quantity}
+              </div>
+              <button
+                className="btn card--btn"
+                disabled={!checkInStock(item)}
+                onClick={() => increaseQuantity(item)}
+              >
+                +
+              </button>
+            </div>
           </div>
         ))}
       </div>
     </div>
   );
 }
-
-/*
-total price
-button for cart - when clicked only then display cartlist
-*/
