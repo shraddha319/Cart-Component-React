@@ -1,0 +1,37 @@
+.App {
+  text-align: center;
+}
+
+.inventory {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.inventory-item {
+  border: 1px solid black;
+  padding: 0.5em 0.5em;
+  margin: 1rem;
+}
+
+.cart {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.cart-item {
+  border: 1px solid black;
+  padding: 0.5em 0.5em;
+  margin: 1rem;
+}
+
+.in-stock {
+  background-color: green;
+  color: white;
+}
+
+.no-stock {
+  background-color: red;
+  color: white;
+}
