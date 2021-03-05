@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import heroIcon from "../public/shopping-cart.svg";
 import { inventoryList } from "./Utility/data.js";
 import Inventory from "./Components/Inventory.js";
+import Cart from "./Components/Cart.js";
 
 export default function App() {
   const [inventory, setInventory] = useState(inventoryList);
@@ -22,51 +23,6 @@ export default function App() {
       0
     );
     setAmount(total);
-  }
-
-  function decreaseQuantity(itemID) {
-    let quantityInCart = cart[itemID].quantity,
-      quantityAvailable = inventory[itemID].quantity;
-
-    if (quantityInCart === 1) {
-      delete cart[itemID];
-      setCart({ ...cart });
-    } else
-      setCart({
-        ...cart,
-        [itemID]: { ...cart[itemID], quantity: quantityInCart - 1 }
-      });
-
-    if (quantityInCart >= 1)
-      setInventory({
-        ...inventory,
-        [itemID]: {
-          ...inventory[itemID],
-          quantity: (Number(quantityAvailable) || 0) + 1
-        }
-      });
-  }
-
-  function increaseQuantity(itemID) {
-    let quantityInCart = cart[itemID].quantity,
-      quantityAvailable = inventory[itemID].quantity;
-
-    if (quantityAvailable > 0) {
-      setCart({
-        ...cart,
-        [itemID]: { ...cart[itemID], quantity: quantityInCart + 1 }
-      });
-      if (quantityAvailable > 1)
-        setInventory({
-          ...inventory,
-          [itemID]: { ...inventory[itemID], quantity: quantityAvailable - 1 }
-        });
-      else
-        setInventory({
-          ...inventory,
-          [itemID]: { ...inventory[itemID], quantity: "-", inStock: false }
-        });
-    }
   }
 
   return (
@@ -89,47 +45,13 @@ export default function App() {
       >
         My Cart ({Object.keys(cart).length})
       </button>
-      <div
-        className="cart card--list"
-        style={{ display: showCartList ? "flex" : "none" }}
-      >
-        {Object.keys(cart).map((item) => (
-          <div key={item} className="card--item">
-            <img
-              src={inventory[item].img}
-              alt=""
-              className="card--img card--field"
-            />
-            <p className="card--title card--field">{cart[item].name}</p>
-            <p className="card--price card--field">{`Price: Rs. ${
-              cart[item].quantity * cart[item].price
-            }`}</p>
-            <p className="card--quantity card--field">
-              Quantity:{" "}
-              {`${cart[item].perUnit * cart[item].quantity} ${cart[item].unit}`}
-            </p>
-            <div className="cart--units-control">
-              <button
-                className="btn card--btn"
-                disabled={cart[item].quantity <= 0}
-                onClick={() => decreaseQuantity(item)}
-              >
-                -
-              </button>
-              <div className="card--units card--field">
-                {cart[item].quantity}
-              </div>
-              <button
-                className="btn card--btn"
-                disabled={!checkInStock(item)}
-                onClick={() => increaseQuantity(item)}
-              >
-                +
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Cart
+        inventory={inventory}
+        setInventory={setInventory}
+        cart={cart}
+        setCart={setCart}
+        checkInStock={checkInStock}
+      />
     </div>
   );
 }
