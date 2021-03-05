@@ -2,36 +2,26 @@ import "./styles.css";
 import { useState, useEffect } from "react";
 import heroIcon from "../public/shopping-cart.svg";
 import { inventoryList } from "./Utility/data.js";
+import Inventory from "./Components/Inventory.js";
 
 export default function App() {
   const [inventory, setInventory] = useState(inventoryList);
-
-  const [amount, setAmount] = useState(0);
   const [cart, setCart] = useState({});
   const [showCartList, setShowCartList] = useState(false);
+  const [amount, setAmount] = useState(0);
 
-  function addToCart(itemID) {
-    let newItem = Object.keys(cart).includes(itemID)
-      ? { ...cart[itemID], quantity: cart[itemID].quantity + 1 }
-      : { ...inventory[itemID], quantity: 1 };
-
-    setCart({ ...cart, [itemID]: newItem });
-
-    let inventoryItem = inventory[itemID];
-    if (inventoryItem.quantity > 1)
-      setInventory({
-        ...inventory,
-        [itemID]: { ...inventoryItem, quantity: inventoryItem.quantity - 1 }
-      });
-    else
-      setInventory({
-        ...inventory,
-        [itemID]: { ...inventoryItem, quantity: "-", inStock: false }
-      });
-  }
+  useEffect(computeTotalAmount, [cart]);
 
   function checkInStock(itemID) {
     return inventory[itemID].quantity > 0;
+  }
+
+  function computeTotalAmount() {
+    let total = Object.keys(cart).reduce(
+      (amount, itemID) => amount + cart[itemID].quantity * cart[itemID].price,
+      0
+    );
+    setAmount(total);
   }
 
   function decreaseQuantity(itemID) {
@@ -79,16 +69,6 @@ export default function App() {
     }
   }
 
-  function computeTotalAmount() {
-    let total = Object.keys(cart).reduce(
-      (amount, itemID) => amount + cart[itemID].quantity * cart[itemID].price,
-      0
-    );
-    setAmount(total);
-  }
-
-  useEffect(computeTotalAmount, [cart]);
-
   return (
     <div className="app shopping-cart">
       <h1 className="app--title">
@@ -96,40 +76,13 @@ export default function App() {
         <img className="hero--icon" alt="" src={heroIcon} />
       </h1>
       <span className="cart--total-amount">{`Total amount: Rs. ${amount}`}</span>
-      <div className="inventory card--list">
-        {Object.keys(inventory).map((item) => (
-          <div key={item} className="card--item">
-            <div
-              className={`card--stock ${
-                checkInStock(item) ? "in-stock" : "no-stock"
-              }`}
-            >
-              {checkInStock(item) ? "Hurry!" : "Out of stock"}
-            </div>
-            <img
-              src={inventory[item].img}
-              alt=""
-              className="card--img card--field"
-            />
-            <p className="card--title">{inventory[item].name}</p>
-            <p className="card--price card--field">
-              Price:{" "}
-              {`Rs. ${inventory[item].price}/ ${inventory[item].perUnit} ${inventory[item].unit}`}
-            </p>
-            <p className="card--quantity card--field">
-              {inventory[item].quantity}
-            </p>
-
-            <button
-              className="btn card--btn"
-              disabled={!checkInStock(item)}
-              onClick={() => addToCart(item)}
-            >
-              Add to cart
-            </button>
-          </div>
-        ))}
-      </div>
+      <Inventory
+        inventory={inventory}
+        setInventory={setInventory}
+        cart={cart}
+        setCart={setCart}
+        checkInStock={checkInStock}
+      />
       <button
         className="btn btn__primary btn__add-to-cart"
         onClick={() => setShowCartList(!showCartList)}
