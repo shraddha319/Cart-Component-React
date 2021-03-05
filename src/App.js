@@ -4,6 +4,7 @@ import heroIcon from "../public/shopping-cart.svg";
 import { inventoryList } from "./Utility/data.js";
 import Inventory from "./Components/Inventory.js";
 import Cart from "./Components/Cart.js";
+import { computeTotalAmount } from "./Utility/services.js";
 
 export default function App() {
   const [inventory, setInventory] = useState(inventoryList);
@@ -11,19 +12,7 @@ export default function App() {
   const [showCartList, setShowCartList] = useState(false);
   const [amount, setAmount] = useState(0);
 
-  useEffect(computeTotalAmount, [cart]);
-
-  function checkInStock(itemID) {
-    return inventory[itemID].quantity > 0;
-  }
-
-  function computeTotalAmount() {
-    let total = Object.keys(cart).reduce(
-      (amount, itemID) => amount + cart[itemID].quantity * cart[itemID].price,
-      0
-    );
-    setAmount(total);
-  }
+  useEffect(() => setAmount(computeTotalAmount(cart)), [cart]);
 
   return (
     <div className="app shopping-cart">
@@ -37,7 +26,6 @@ export default function App() {
         setInventory={setInventory}
         cart={cart}
         setCart={setCart}
-        checkInStock={checkInStock}
       />
       <button
         className="btn btn__primary btn__add-to-cart"
@@ -50,7 +38,6 @@ export default function App() {
         setInventory={setInventory}
         cart={cart}
         setCart={setCart}
-        checkInStock={checkInStock}
       />
     </div>
   );

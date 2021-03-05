@@ -1,10 +1,6 @@
-export default function Inventory({
-  inventory,
-  setInventory,
-  cart,
-  setCart,
-  checkInStock
-}) {
+import { checkInStock } from "../Utility/services.js";
+
+export default function Inventory({ inventory, setInventory, cart, setCart }) {
   function addToCart(itemID) {
     let newItem = Object.keys(cart).includes(itemID)
       ? { ...cart[itemID], quantity: cart[itemID].quantity + 1 }
@@ -31,10 +27,10 @@ export default function Inventory({
         <div key={item} className="card--item">
           <div
             className={`card--stock ${
-              checkInStock(item) ? "in-stock" : "no-stock"
+              checkInStock(item, inventory) ? "in-stock" : "no-stock"
             }`}
           >
-            {checkInStock(item) ? "Hurry!" : "Out of stock"}
+            {checkInStock(item, inventory) ? "Hurry!" : "Out of stock"}
           </div>
           <img
             src={inventory[item].img}
@@ -52,7 +48,7 @@ export default function Inventory({
 
           <button
             className="btn card--btn"
-            disabled={!checkInStock(item)}
+            disabled={!checkInStock(item, inventory)}
             onClick={() => addToCart(item)}
           >
             Add to cart

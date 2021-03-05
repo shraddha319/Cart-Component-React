@@ -1,10 +1,6 @@
-export default function Cart({
-  cart,
-  setCart,
-  inventory,
-  setInventory,
-  checkInStock
-}) {
+import { checkInStock } from "../Utility/services.js";
+
+export default function Cart({ cart, setCart, inventory, setInventory }) {
   function decreaseQuantity(itemID) {
     let quantityInCart = cart[itemID].quantity,
       quantityAvailable = inventory[itemID].quantity;
@@ -81,7 +77,7 @@ export default function Cart({
             <div className="card--units card--field">{cart[item].quantity}</div>
             <button
               className="btn card--btn"
-              disabled={!checkInStock(item)}
+              disabled={!checkInStock(item, inventory)}
               onClick={() => increaseQuantity(item)}
             >
               +
