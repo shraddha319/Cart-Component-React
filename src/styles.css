@@ -16,8 +16,8 @@
   --clr--error: #d81a1a;
   --clr--info: #333;
   --clr--warning: #ffc500;
-  --clr--primary-btn: #fda029;
-  --clr--secondary-btn: #f86426;
+  --clr--primary-btn: #f86426;
+  --clr--secondary-btn: #fda029;
 }
 
 html,
@@ -63,9 +63,6 @@ body {
 
 .card--item {
   margin: 1rem;
-  /*
-  width: 400px;
-  height: 450px; */
   width: 400px;
   max-height: 450px;
   height: auto;
@@ -163,4 +160,12 @@ body {
 
 .cart--units-control button {
   font-size: 1.5rem;
+}
+
+.nav__side-bar {
+  width: 170px;
+  display: flex;
+  flex-flow: column wrap;
+  position: fixed;
+  right: 1px;
 }

@@ -5,7 +5,7 @@ export default function Cart({
   setCart,
   inventory,
   setInventory,
-  showCartList
+  displayState
 }) {
   function decreaseQuantity(itemID) {
     let quantityInCart = cart[itemID].quantity,
@@ -55,7 +55,7 @@ export default function Cart({
   return (
     <div
       className="cart card--list"
-      style={{ display: showCartList ? "flex" : "none" }}
+      style={{ display: displayState === "cart" ? "flex" : "none" }}
     >
       {Object.keys(cart).map((item) => (
         <div key={item} className="card--item">

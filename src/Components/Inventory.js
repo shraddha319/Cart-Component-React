@@ -1,6 +1,12 @@
 import { checkInStock } from "../Utility/index.js";
 
-export default function Inventory({ inventory, setInventory, cart, setCart }) {
+export default function Inventory({
+  inventory,
+  setInventory,
+  cart,
+  setCart,
+  displayState
+}) {
   function addToCart(itemID) {
     let newItem = Object.keys(cart).includes(itemID)
       ? { ...cart[itemID], quantity: cart[itemID].quantity + 1 }
@@ -22,7 +28,10 @@ export default function Inventory({ inventory, setInventory, cart, setCart }) {
   }
 
   return (
-    <div className="inventory card--list">
+    <div
+      className="inventory card--list"
+      style={{ display: displayState === "inventory" ? "flex" : "none" }}
+    >
       {Object.keys(inventory).map((item) => (
         <div key={item} className="card--item">
           <div
