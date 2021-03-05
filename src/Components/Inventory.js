@@ -1,4 +1,4 @@
-import { checkInStock } from "../Utility/services.js";
+import { checkInStock } from "../Utility/index.js";
 
 export default function Inventory({ inventory, setInventory, cart, setCart }) {
   function addToCart(itemID) {

@@ -1,6 +1,12 @@
-import { checkInStock } from "../Utility/services.js";
+import { checkInStock } from "../Utility/index";
 
-export default function Cart({ cart, setCart, inventory, setInventory }) {
+export default function Cart({
+  cart,
+  setCart,
+  inventory,
+  setInventory,
+  showCartList
+}) {
   function decreaseQuantity(itemID) {
     let quantityInCart = cart[itemID].quantity,
       quantityAvailable = inventory[itemID].quantity;
@@ -49,7 +55,7 @@ export default function Cart({ cart, setCart, inventory, setInventory }) {
   return (
     <div
       className="cart card--list"
-      /* style={{ display: showCartList ? "flex" : "none" }} */
+      style={{ display: showCartList ? "flex" : "none" }}
     >
       {Object.keys(cart).map((item) => (
         <div key={item} className="card--item">

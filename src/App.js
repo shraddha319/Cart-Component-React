@@ -1,10 +1,8 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
 import heroIcon from "../public/shopping-cart.svg";
-import { inventoryList } from "./Utility/data.js";
-import Inventory from "./Components/Inventory.js";
-import Cart from "./Components/Cart.js";
-import { computeTotalAmount } from "./Utility/services.js";
+import { PrimaryButton, Cart, Inventory } from "./Components/index.js";
+import { inventoryList, computeTotalAmount } from "./Utility/index.js";
 
 export default function App() {
   const [inventory, setInventory] = useState(inventoryList);
@@ -27,17 +25,16 @@ export default function App() {
         cart={cart}
         setCart={setCart}
       />
-      <button
-        className="btn btn__primary btn__add-to-cart"
-        onClick={() => setShowCartList(!showCartList)}
-      >
-        My Cart ({Object.keys(cart).length})
-      </button>
+      <PrimaryButton
+        btnText="My Cart"
+        onClickHandler={() => setShowCartList(!showCartList)}
+      />
       <Cart
         inventory={inventory}
         setInventory={setInventory}
         cart={cart}
         setCart={setCart}
+        showCartList={showCartList}
       />
     </div>
   );
