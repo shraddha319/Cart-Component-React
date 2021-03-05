@@ -1,7 +1,7 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
 import heroIcon from "../public/shopping-cart.svg";
-import { inventoryList } from "./Utility/constants.js";
+import { inventoryList } from "./Utility/data.js";
 
 export default function App() {
   const [inventory, setInventory] = useState(inventoryList);
