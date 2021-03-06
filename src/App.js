@@ -8,8 +8,10 @@ import {
   PrimaryButton,
   Cart,
   EmptyCart,
-  Inventory
+  Inventory,
+  Footer
 } from "./Components/index.js";
+
 import {
   inventoryList,
   computeTotalAmount,
@@ -58,6 +60,8 @@ export default function App() {
           displayState={displayState}
         />
       )}
+
+      <Footer />
     </div>
   );
 }

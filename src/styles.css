@@ -180,7 +180,7 @@ body {
 }
 
 .cart__empty {
-  height: 80vh;
+  height: 70vh;
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -199,4 +199,27 @@ body {
 .cart__empty img {
   width: 60%;
   height: 50%;
+}
+
+.footer {
+  display: flex;
+  flex-flow: column wrap;
+  background: var(--clr--info);
+  color: white;
+  padding: 0.5em 1em 1.2em;
+  align-items: center;
+  justify-content: space-evenly;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 0.9rem;
+}
+
+.footer > * {
+  margin: 0.3rem;
+}
+
+.footer a {
+  color: inherit;
 }
