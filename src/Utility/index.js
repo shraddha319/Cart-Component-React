@@ -1,5 +1,8 @@
-import { computeTotalAmount } from "./services.js";
 import { inventoryList } from "./data.js";
-import { checkInStock } from "./services.js";
+import {
+  checkInStock,
+  computeTotalAmount,
+  computeTotalItems
+} from "./services.js";
 
-export { computeTotalAmount, inventoryList, checkInStock };
+export { computeTotalAmount, computeTotalItems, inventoryList, checkInStock };
