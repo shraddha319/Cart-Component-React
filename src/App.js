@@ -1,6 +1,8 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
-import heroIcon from "../public/shopping-cart.svg";
+import heroIcon from "./assets/svg/shopping_cart.svg";
+import emptyCartSvg from "./assets/svg/empty_cart.svg";
+
 import {
   Header,
   PrimaryButton,
@@ -46,10 +48,7 @@ export default function App() {
       />
 
       {isCartEmpty(cart) && displayState === "cart" ? (
-        <EmptyCart
-          displayState={displayState}
-          setDisplayState={setDisplayState}
-        />
+        <EmptyCart setDisplayState={setDisplayState} image={emptyCartSvg} />
       ) : (
         <Cart
           inventory={inventory}
