@@ -44,7 +44,9 @@ export default function Inventory({
           <img
             src={inventory[item].img}
             alt=""
-            className="card--img card--field"
+            className={`card--img card--field ${
+              !checkInStock(item, inventory) ? "img--no-stock" : "img--in-stock"
+            }`}
           />
           <p className="card--title">{inventory[item].name}</p>
           <p className="card--price card--field">

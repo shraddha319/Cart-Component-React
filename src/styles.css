@@ -94,6 +94,14 @@ body {
   background-color: var(--clr--error);
 }
 
+.img--no-stock {
+  filter: blur(1px) grayscale(1);
+}
+
+.img--in-stock {
+  filter: none;
+}
+
 .card--img {
   max-width: 300px;
   max-height: 150px;
