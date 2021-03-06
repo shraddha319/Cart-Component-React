@@ -1,11 +1,10 @@
 import { checkInStock } from "../Utility/index";
 import { SecondaryButton } from "./index.js";
-import emptyCartSvg from "../assets/svg/emptyCart.svg";
 
-function EmptyCart({ displayState, setDisplayState }) {
+function EmptyCart({ setDisplayState, image }) {
   return (
     <div className="cart__empty">
-      <img src={emptyCartSvg} />
+      <img src={image} alt="" />
       <p>Your cart is empty!</p>
       <p>Add items to it now.</p>
       <SecondaryButton

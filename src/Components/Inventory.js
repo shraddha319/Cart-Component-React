@@ -15,15 +15,10 @@ export default function Inventory({
     setCart({ ...cart, [itemID]: newItem });
 
     let inventoryItem = inventory[itemID];
-    if (inventoryItem.quantity > 1)
+    if (inventoryItem.quantity > 0)
       setInventory({
         ...inventory,
         [itemID]: { ...inventoryItem, quantity: inventoryItem.quantity - 1 }
-      });
-    else
-      setInventory({
-        ...inventory,
-        [itemID]: { ...inventoryItem, quantity: "-", inStock: false }
       });
   }
 
@@ -53,8 +48,15 @@ export default function Inventory({
             Price:{" "}
             {`Rs. ${inventory[item].price}/ ${inventory[item].perUnit} ${inventory[item].unit}`}
           </p>
-          <p className="card--quantity card--field">
-            {inventory[item].quantity}
+          <p
+            className="card--quantity card--field"
+            style={{
+              color: checkInStock(item, inventory) ? "#d81a1a" : "black"
+            }}
+          >
+            {checkInStock(item, inventory)
+              ? `Only ${inventory[item].quantity} left in stock!`
+              : "-"}
           </p>
 
           <button

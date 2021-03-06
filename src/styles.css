@@ -91,11 +91,11 @@ body {
 }
 
 .in-stock {
-  background-color: var(--clr--success);
+  background-color: var(--clr--error);
 }
 
 .no-stock {
-  background-color: var(--clr--error);
+  background-color: var(--clr--info);
 }
 
 .img--no-stock {
