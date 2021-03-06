@@ -1,11 +1,18 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
 import heroIcon from "../public/shopping-cart.svg";
-import { Header, PrimaryButton, Cart, Inventory } from "./Components/index.js";
+import {
+  Header,
+  PrimaryButton,
+  Cart,
+  EmptyCart,
+  Inventory
+} from "./Components/index.js";
 import {
   inventoryList,
   computeTotalAmount,
-  computeTotalItems
+  computeTotalItems,
+  isCartEmpty
 } from "./Utility/index.js";
 
 export default function App() {
@@ -38,13 +45,20 @@ export default function App() {
         displayState={displayState}
       />
 
-      <Cart
-        inventory={inventory}
-        setInventory={setInventory}
-        cart={cart}
-        setCart={setCart}
-        displayState={displayState}
-      />
+      {isCartEmpty(cart) && displayState === "cart" ? (
+        <EmptyCart
+          displayState={displayState}
+          setDisplayState={setDisplayState}
+        />
+      ) : (
+        <Cart
+          inventory={inventory}
+          setInventory={setInventory}
+          cart={cart}
+          setCart={setCart}
+          displayState={displayState}
+        />
+      )}
     </div>
   );
 }

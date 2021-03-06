@@ -1,4 +1,4 @@
-export { checkInStock, computeTotalAmount, computeTotalItems };
+export { checkInStock, computeTotalAmount, computeTotalItems, isCartEmpty };
 
 function checkInStock(itemID, inventory) {
   return inventory[itemID].quantity > 0;
@@ -17,4 +17,8 @@ function computeTotalItems(cart) {
     (total, item) => total + cart[item].quantity,
     0
   );
+}
+
+function isCartEmpty(cart) {
+  return Object.keys(cart).length === 0;
 }

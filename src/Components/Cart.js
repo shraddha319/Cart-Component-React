@@ -1,12 +1,22 @@
 import { checkInStock } from "../Utility/index";
+import { SecondaryButton } from "./index.js";
+import emptyCartSvg from "../assets/svg/emptyCart.svg";
 
-export default function Cart({
-  cart,
-  setCart,
-  inventory,
-  setInventory,
-  displayState
-}) {
+function EmptyCart({ displayState, setDisplayState }) {
+  return (
+    <div className="cart__empty">
+      <img src={emptyCartSvg} />
+      <p>Your cart is empty!</p>
+      <p>Add items to it now.</p>
+      <SecondaryButton
+        btnText="Shop Now!"
+        onClickHandler={() => setDisplayState("inventory")}
+      />
+    </div>
+  );
+}
+
+function Cart({ cart, setCart, inventory, setInventory, displayState }) {
   function decreaseQuantity(itemID) {
     let quantityInCart = cart[itemID].quantity,
       quantityAvailable = inventory[itemID].quantity;
@@ -94,3 +104,5 @@ export default function Cart({
     </div>
   );
 }
+
+export { Cart, EmptyCart };
